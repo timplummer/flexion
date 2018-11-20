@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import TempConverter from '../TempConverter';
 import { Button, Card, CardActionArea, CardActions, CardContent, Typography } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import AddIcon from '@material-ui/icons/Add';
 
 const _style = {
     root: {
@@ -31,7 +30,6 @@ export class TempList extends Component {
     handleChange = (item, key) => {
         let items = [...this.state.items];
         items[key] = item;
-        console.log('Item', item, 'Items', items);
         this.setState({items});
     };
 

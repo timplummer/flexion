@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import { TextField, MenuItem } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
+import converter from './converter';
 
 const _style = (theme) => ({
     root: {
@@ -15,7 +16,6 @@ const _style = (theme) => ({
 
 export class TempConverter extends Component {
     state = {
-        data: this.props.data,
         units: [
             {
                 label: 'Celsius',
@@ -44,16 +44,22 @@ export class TempConverter extends Component {
         const { index, data, onChange } = this.props;
         const { name, value } = event.target;
         const newData = {...data, [name]: value};
-        console.log('NewData', newData);
         const calc = this.handleCalc(newData);
-        console.log('Calc', calc, 'Index', index);
         onChange(calc, index);
     }
 
     handleCalc = (data) => {
         const { response, temp, tUnit, unit } = data;
-        
-        return { ...data, output: (response && temp && tUnit && unit) ? 'true' : 'false' };
+        const format = converter[`${unit}${tUnit}`];
+        const value = typeof format === 'function' ? format(temp) : 'invalid';
+        return { 
+            ...data, 
+            output: (value !== 'invalid') 
+                ? value === parseInt(response, 10) 
+                    ? 'correct' 
+                    : 'incorrect'
+                : 'invalid'
+        };
     }
 
     render() {
@@ -61,6 +67,7 @@ export class TempConverter extends Component {
             <TextField 
                 name="temp" 
                 label="Temperature"
+                type="number"
                 value={this.props.data.temp} 
                 onChange={this.handleChange}
                 className={this.props.classes.field} />
@@ -91,6 +98,7 @@ export class TempConverter extends Component {
             <TextField 
                 name="response" 
                 label="Response"
+                type="number"
                 value={this.props.data.response} 
                 onChange={this.handleChange}
                 className={this.props.classes.field} />      
