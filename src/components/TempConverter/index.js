@@ -9,6 +9,10 @@ const _style = (theme) => ({
         display: 'flex',
     },
     field: {
+        flexGrow: '2',
+        margin: '0 1vw'
+    },
+    select: {
         flexGrow: '1',
         margin: '0 1vw'
     }
@@ -20,24 +24,24 @@ export class TempConverter extends Component {
             {
                 label: 'Celsius',
                 value: 'c',
-                calc: 1
             },
             {
                 label: 'Farenheit',
                 value: 'f',
-                calc: 2
             },
             {
                 label: 'Kelvin',
                 value: 'k',
-                calc: 3
             },
             {
                 label: 'Rankine',
                 value: 'r',
-                calc: 4
             },
         ]
+    }
+
+    componentDidMount() {
+       this.handleChange({target: { name: 'value', value: 0 }});
     }
 
     handleChange = (event) => {
@@ -54,6 +58,7 @@ export class TempConverter extends Component {
         const value = typeof format === 'function' ? format(temp) : 'invalid';
         return { 
             ...data, 
+            calc: value,
             output: (value !== 'invalid') 
                 ? value === parseInt(response, 10) 
                     ? 'correct' 
@@ -68,16 +73,18 @@ export class TempConverter extends Component {
                 name="temp" 
                 label="Temperature"
                 type="number"
+                fullWidth
                 value={this.props.data.temp} 
                 onChange={this.handleChange}
                 className={this.props.classes.field} />
             <TextField 
                 name="unit" 
                 label="Unit"
+                fullWidth
                 value={this.props.data.unit} 
                 select
                 onChange={this.handleChange}
-                className={this.props.classes.field}
+                className={this.props.classes.select}
                 children={this.state.units.map((unit, i) => (
                     <MenuItem key={i} value={unit.value}>
                         {unit.label}
@@ -86,10 +93,11 @@ export class TempConverter extends Component {
             <TextField 
                 name="tUnit" 
                 label="Target"
+                fullWidth
                 value={this.props.data.tUnit} 
                 select
                 onChange={this.handleChange}
-                className={this.props.classes.field}
+                className={this.props.classes.select}
                 children={this.state.units.map((unit, i) => (
                     <MenuItem key={i} value={unit.value}>
                         {unit.label}
@@ -99,12 +107,14 @@ export class TempConverter extends Component {
                 name="response" 
                 label="Response"
                 type="number"
+                fullWidth
                 value={this.props.data.response} 
                 onChange={this.handleChange}
                 className={this.props.classes.field} />      
             <TextField 
-                name="output" 
-                label="Output"
+                name="output"
+                label=" "
+                fullWidth
                 disabled={true}
                 value={this.props.data.output}
                 className={this.props.classes.field}  />

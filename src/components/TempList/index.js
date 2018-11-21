@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import TempConverter from '../TempConverter';
-import { Button, Card, CardActionArea, CardActions, CardContent, Typography } from '@material-ui/core';
+import { Button, Card, CardActions, CardContent, CardHeader, Tooltip } from '@material-ui/core';
+import { Add } from '@material-ui/icons';
 import { withStyles } from '@material-ui/core/styles';
 
 const _style = {
     root: {
-        maxWidth: '50vw',
+        maxWidth: '80vw',
         padding: '1vw',
         margin: '3vw auto'
     },
@@ -17,14 +18,20 @@ const _style = {
 }
 
 export class TempList extends Component {
+    static defaultProps = {
+        items: [
+            {
+                temp: '',
+                unit: '',
+                tUnit: '',
+                response: '',
+                calc: '',
+                output: ''
+            }
+        ]
+}
     state = {
-        items: [{
-            temp: '',
-            unit: '',
-            tUnit: '',
-            response: '',
-            output: ''
-        }]
+        items: this.props.items
     };
 
     handleChange = (item, key) => {
@@ -40,6 +47,7 @@ export class TempList extends Component {
             unit: '',
             tUnit: '',
             response: '',
+            calc: '',
             output: ''
         });
         this.setState({items});
@@ -49,28 +57,32 @@ export class TempList extends Component {
         return (
             <div className={this.props.classes.root}>
                 <Card>
-                    <CardActionArea>
-                        <CardContent>
-                            <Typography gutterBottom variant="h5" component="h2">
-                                Temperature Converter
-                            </Typography>
-                            {this.state.items.map((data, i) => (<TempConverter 
-                                key={i}
-                                index={i}
-                                data={data}
-                                onChange={this.handleChange} />))}
-                        </CardContent>
-                    </CardActionArea>
+                    <CardHeader 
+                        title="Temperature Converter"
+                        action={
+                            <Tooltip 
+                                title="Add Row" 
+                                children={<Button 
+                                    variant="text"
+                                    color="primary" 
+                                    mini
+                                    aria-label="Add"
+                                    onClick={this.handleAdd}
+                                    children={<Add />} 
+                                />}
+                            />} 
+                        />
+                    <CardContent>
+                        {this.state.items.map((data, i) => (<TempConverter 
+                            key={i}
+                            index={i}
+                            data={data}
+                            onChange={this.handleChange} />))}
+                    </CardContent>
                     <CardActions>
-                        <Button 
-                            color="primary" 
-                            size="small"
-                            onClick={this.handleAdd}>{'Add Converter'}
-                        </Button>
+                        
                     </CardActions>
-                    
                 </Card>
-                
             </div>);
     }
 };
