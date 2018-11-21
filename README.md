@@ -27,3 +27,9 @@ It correctly bundles React in production mode and optimizes the build for the be
 
 The build is minified and the filenames include the hashes.<br>
 Your app is ready to be deployed!
+
+## Deployment
+
+This app would be deployed via [CodeShip](https://codeship.com/).
+
+A custom script would run the `test` command.  Upon succssful test, the script would run the `build` command and deploy the build to the appropriate environment.
