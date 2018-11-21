@@ -4,19 +4,21 @@ const rankine = 459.67;
 const metric = 273.15;
 const imperial = 32;
 
+const round = (value) => (Math.round(value*10)/10);
+
 export const converter = {
-    'fc': (v) => ((v - imperial) * toMetic),
-    'fk': (v) => ((v - imperial) * toMetic + metric),
-    'fr': (v) => (v + rankine),
-    'cf': (v) => ((v * toImperial) + imperial),
-    'ck': (v) => (v + metric),
-    'cr': (v) => (v + metric * toImperial),
-    'kf': (v) => ((v - metric) * toImperial + imperial),
-    'kc': (v) => (v - metric),
-    'kr': (v) => (v * toImperial),
-    'rf': (v) => (v - rankine),
-    'rc': (v) => ((v - (rankine+imperial)) * toMetic),
-    'rk': (v) => (v * toMetic),
+    'fc': (v) => round((v - imperial) * toMetic),
+    'fk': (v) => round((v - imperial) * toMetic + metric),
+    'fr': (v) => round(v + rankine),
+    'cf': (v) => round((v * toImperial) + imperial),
+    'ck': (v) => round(v + metric),
+    'cr': (v) => round(v + metric * toImperial),
+    'kf': (v) => round((v - metric) * toImperial + imperial),
+    'kc': (v) => round(v - metric),
+    'kr': (v) => round(v * toImperial),
+    'rf': (v) => round(v - rankine),
+    'rc': (v) => round((v - (rankine+imperial)) * toMetic),
+    'rk': (v) => round(v * toMetic),
 };
 
 export const generateTestValues = Object.keys(converter).reduce((acc, cur) => ({ 
